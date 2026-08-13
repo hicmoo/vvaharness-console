@@ -4,7 +4,7 @@ A web console around the [Visa Vulnerability Agentic Harness](https://github.com
 
 Features:
 
-- **Provider linking** — add Anthropic, OpenAI, or Google (Gemini) API keys; keys are verified against the provider's model API and stored encrypted at rest (Fernet).
+- **Provider linking** — add Anthropic, OpenAI, or Google (Gemini) API keys, or a custom OpenAI-compatible endpoint (Ollama, Groq, OpenRouter, Hugging Face router, …); keys are verified against the provider's model API and stored encrypted at rest (Fernet).
 - **Model selection** — models are listed live from the linked provider; pick the one used for the scan's detection roles.
 - **Targets** — register scan targets by git URL or local path.
 - **Scans** — detection-only runs (`--stop-after s9`, remediation/validation disabled) with cost estimate, live status, and streamed logs.
@@ -18,7 +18,7 @@ Features:
 - `backend/` — FastAPI + SQLAlchemy (SQLite). Runs `vvaharness estimate` / `vvaharness scan` as subprocesses using a per-run config generated from the shipped `sdk.yaml` profile (detection roles' model/backend overridden; S10/S11 disabled).
 - `frontend/` — React + TypeScript + Vite dashboard. Dev server proxies `/api` to the backend.
 
-Provider → harness backend mapping: Anthropic → `sdk`; OpenAI → `openai`; Google → `openai` via Gemini's OpenAI-compatible endpoint (`https://generativelanguage.googleapis.com/v1beta/openai`).
+Provider → harness backend mapping: Anthropic → `sdk`; OpenAI → `openai`; Google → `openai` via Gemini's OpenAI-compatible endpoint (`https://generativelanguage.googleapis.com/v1beta/openai`); Custom → `openai` with the user-supplied base URL (API key optional for endpoints like local Ollama).
 
 ## Running
 

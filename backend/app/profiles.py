@@ -23,9 +23,9 @@ DETECTION_ROLES = (
     "chain",
 )
 
-# vvaharness backend used per provider kind. Google is consumed through
-# Gemini's OpenAI-compatible endpoint, so it rides the `openai` backend.
-PROVIDER_BACKEND = {"anthropic": "sdk", "openai": "openai", "google": "openai"}
+# vvaharness backend used per provider kind. Google and custom providers are
+# consumed through OpenAI-compatible endpoints, so they ride the `openai` backend.
+PROVIDER_BACKEND = {"anthropic": "sdk", "openai": "openai", "google": "openai", "custom": "openai"}
 
 
 def shipped_profile_path(name: str = "sdk.yaml") -> Path:

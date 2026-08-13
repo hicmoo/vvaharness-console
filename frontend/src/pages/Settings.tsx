@@ -6,6 +6,7 @@ const KIND_LABELS: Record<string, string> = {
   anthropic: 'Anthropic (Claude)',
   openai: 'OpenAI (GPT)',
   google: 'Google (Gemini)',
+  custom: 'Custom (OpenAI-compatible)',
 }
 
 export default function Settings() {
@@ -70,7 +71,9 @@ export default function Settings() {
         <p className="muted">
           Add an API key for the provider you want scans to use. Keys are encrypted at rest and
           only handed to the vvaharness process as environment variables. Google is consumed
-          through Gemini's OpenAI-compatible endpoint.
+          through Gemini's OpenAI-compatible endpoint. Custom lets you point at any
+          OpenAI-compatible endpoint (Ollama, Groq, OpenRouter, Hugging Face router, …) —
+          give its base URL, e.g. http://localhost:11434/v1 for Ollama.
         </p>
         <div className="row">
           <div>
@@ -79,6 +82,7 @@ export default function Settings() {
               <option value="anthropic">Anthropic (Claude)</option>
               <option value="openai">OpenAI (GPT)</option>
               <option value="google">Google (Gemini)</option>
+              <option value="custom">Custom (OpenAI-compatible)</option>
             </select>
           </div>
           <div>
@@ -86,20 +90,24 @@ export default function Settings() {
             <input value={name} onChange={(e) => setName(e.target.value)} placeholder={KIND_LABELS[kind]} />
           </div>
           <div>
-            <label>API key</label>
+            <label>{kind === 'custom' ? 'API key (optional)' : 'API key'}</label>
             <input
               type="password"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              placeholder="sk-…"
+              placeholder={kind === 'custom' ? 'leave empty if not needed' : 'sk-…'}
             />
           </div>
           <div>
-            <label>Base URL (optional, for gateways)</label>
-            <input value={baseUrl} onChange={(e) => setBaseUrl(e.target.value)} placeholder="default" />
+            <label>{kind === 'custom' ? 'Base URL (required)' : 'Base URL (optional, for gateways)'}</label>
+            <input
+              value={baseUrl}
+              onChange={(e) => setBaseUrl(e.target.value)}
+              placeholder={kind === 'custom' ? 'http://localhost:11434/v1' : 'default'}
+            />
           </div>
           <div style={{ flex: '0 0 auto' }}>
-            <button onClick={add} disabled={busy || !apiKey.trim()}>
+            <button onClick={add} disabled={busy || (kind === 'custom' ? !baseUrl.trim() : !apiKey.trim())}>
               {busy ? 'Verifying…' : 'Link provider'}
             </button>
           </div>
