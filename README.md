@@ -24,6 +24,14 @@ Provider → harness backend mapping: Anthropic → `sdk`; OpenAI → `openai`; 
 
 Requires Python ≥3.11, Node 20+, and git. The `vvaharness` CLI is installed automatically as a backend dependency (from its GitHub repo — it is not on PyPI).
 
+Quick start — clones the repo (if needed), installs everything, and starts backend + frontend (Ctrl+C stops both):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/hicmoo/vvaharness-console/main/start.sh | bash
+```
+
+From an existing clone, just run `./start.sh`. Manual steps:
+
 ```bash
 # backend
 python -m venv .venv && ./.venv/bin/pip install -e backend
