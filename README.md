@@ -22,7 +22,7 @@ Provider → harness backend mapping: Anthropic → `sdk`; OpenAI → `openai`; 
 
 ## Running
 
-Requires Python ≥3.11, Node 20+, and the `vvaharness` CLI installed (it is a backend dependency).
+Requires Python ≥3.11, Node 20+, and git. The `vvaharness` CLI is installed automatically as a backend dependency (from its GitHub repo — it is not on PyPI).
 
 ```bash
 # backend
