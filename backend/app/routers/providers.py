@@ -21,7 +21,10 @@ def list_providers(db: Session = Depends(get_db)):
 def create_provider(body: ProviderCreate, db: Session = Depends(get_db)):
     if body.kind not in PROVIDER_KINDS:
         raise HTTPException(400, f"kind must be one of {PROVIDER_KINDS}")
-    if not body.api_key.strip():
+    if body.kind == "custom":
+        if not (body.base_url or "").strip():
+            raise HTTPException(400, "base_url is required for custom providers")
+    elif not body.api_key.strip():
         raise HTTPException(400, "api_key is required")
     verified = provider_api.verify_key(body.kind, body.api_key, body.base_url)
     provider = Provider(

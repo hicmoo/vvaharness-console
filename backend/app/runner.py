@@ -80,6 +80,9 @@ def _provider_env(provider: Provider) -> dict[str, str]:
     elif provider.kind == "google":
         env["OPENAI_API_KEY"] = key
         env["OPENAI_BASE_URL"] = provider.base_url or GOOGLE_OPENAI_BASE_URL
+    elif provider.kind == "custom":
+        env["OPENAI_API_KEY"] = key or "not-required"
+        env["OPENAI_BASE_URL"] = provider.base_url or ""
     return env
 
 

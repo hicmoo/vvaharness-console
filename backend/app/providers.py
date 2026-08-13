@@ -1,9 +1,10 @@
 """Provider API clients: key verification and model listing.
 
-All three providers are consumed through HTTP APIs:
+Providers are consumed through HTTP APIs:
 - anthropic: native Anthropic API (/v1/models)
 - openai:    OpenAI-compatible /v1/models
 - google:    Gemini's OpenAI-compatible endpoint
+- custom:    any OpenAI-compatible endpoint (Ollama, Groq, OpenRouter, HF, ...)
 """
 
 import httpx
@@ -24,6 +25,8 @@ def default_base_url(kind: str) -> str:
         return OPENAI_BASE_URL
     if kind == "google":
         return GOOGLE_OPENAI_BASE_URL
+    if kind == "custom":
+        raise ProviderError("custom providers require a base URL")
     raise ProviderError(f"unknown provider kind: {kind}")
 
 
@@ -44,11 +47,8 @@ def list_models(
                 {"id": m["id"], "display_name": m.get("display_name")}
                 for m in resp.json().get("data", [])
             ]
-        resp = httpx.get(
-            f"{base}/models",
-            headers={"Authorization": f"Bearer {api_key}"},
-            timeout=20,
-        )
+        headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+        resp = httpx.get(f"{base}/models", headers=headers, timeout=20)
         resp.raise_for_status()
         models = []
         for m in resp.json().get("data", []):

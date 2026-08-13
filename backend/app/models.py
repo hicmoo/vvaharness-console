@@ -16,7 +16,7 @@ class Provider(Base):
     __tablename__ = "providers"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    kind: Mapped[str] = mapped_column(String(20))  # anthropic | openai | google
+    kind: Mapped[str] = mapped_column(String(20))  # anthropic | openai | google | custom
     name: Mapped[str] = mapped_column(String(100))
     encrypted_key: Mapped[str] = mapped_column(Text)
     base_url: Mapped[str | None] = mapped_column(String(300), nullable=True)

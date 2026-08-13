@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
-PROVIDER_KINDS = ("anthropic", "openai", "google")
+PROVIDER_KINDS = ("anthropic", "openai", "google", "custom")
 FINDING_STATES = ("open", "confirmed", "false_positive", "accepted_risk", "fixed")
 
 
